@@ -31,7 +31,7 @@ const SAMPLE_ROSTERS = {
 };
 const ROSTER_SIZES = { Northside: 17, Southside: 16, Central: 18, NRB: 15, RSA: 14, REF: 12, PF: 20 };
 
-const SRSS_PASSCODE = "FISST2026"; // shared passcode â change before real rollout
+const SRSS_PASSCODE = "FISST2026"; // shared passcode — change before real rollout
 
 // ===================== HELPERS =====================
 function slugify(str) {
@@ -206,6 +206,28 @@ async function saveDayIndex(labels) {
   return saveDay("__index__", { labels });
 }
 
+// ===================== GLOBAL ERROR SAFETY NET =====================
+// Catches anything that slips past individual try/catch blocks, so we never
+// end up staring at a blank/stuck screen with zero information about why.
+window.addEventListener("error", (event) => {
+  console.error("Uncaught error:", event.error);
+  if (state.loading) {
+    state.loading = false;
+    state.storageError = true;
+    state.lastBootError = `${event.error?.name || "Error"}: ${event.error?.message || event.message}`;
+    render();
+  }
+});
+window.addEventListener("unhandledrejection", (event) => {
+  console.error("Unhandled promise rejection:", event.reason);
+  if (state.loading) {
+    state.loading = false;
+    state.storageError = true;
+    state.lastBootError = `Unhandled promise rejection: ${event.reason?.message || String(event.reason)}`;
+    render();
+  }
+});
+
 // ===================== APP STATE =====================
 const state = {
   loading: true,
@@ -315,7 +337,7 @@ async function boot() {
     const labels = await loadDayIndex();
     if (!labels || labels.length === 0) {
       // First-ever load: seed a real empty Day 1 (no fake sample data in the
-      // real deployment â that was only for the React demo).
+      // real deployment — that was only for the React demo).
       const day1 = makeEmptyDay("Day 1");
       await saveDay("Day 1", day1);
       await saveDayIndex(["Day 1"]);
@@ -331,6 +353,7 @@ async function boot() {
     console.error("Boot failed:", e);
     state.loading = false;
     state.storageError = true;
+    state.lastBootError = `${e.name || "Error"}: ${e.message || String(e)}`;
     render();
   }
 }
@@ -352,11 +375,12 @@ function render() {
         <div class="error-box">
           <p class="error-title">Couldn't connect to storage</p>
           <p class="error-sub">Something went wrong loading RTC data. Check your connection and try again.</p>
+          ${state.lastBootError ? `<p style="font-size:11px;color:#b3422a;margin-top:10px;word-break:break-word;background:#fff0ed;padding:8px;border-radius:6px">${escapeHtml(state.lastBootError)}</p>` : `<p style="font-size:11px;color:#8a8a7e;margin-top:10px">No specific error captured — this suggests the app failed before it could log anything.</p>`}
           <button class="submit-btn" style="margin-top:16px" id="retry-btn">Try again</button>
           ${lastLogs.length > 0 ? `<div style="margin-top:16px;text-align:left;font-family:monospace;font-size:10px;background:#0a0a0a;color:#6f6;padding:8px;border-radius:6px;max-height:150px;overflow-y:auto">${lastLogs.map((l) => escapeHtml(l)).join("<br/>")}</div>` : ""}
         </div>
       </div>`;
-    document.getElementById("retry-btn").onclick = () => { state.loading = true; render(); boot(); };
+    document.getElementById("retry-btn").onclick = () => { state.loading = true; state.lastBootError = null; render(); boot(); };
     return;
   }
 
@@ -375,7 +399,7 @@ function renderDebugPanel() {
 function debugBarHtml() {
   return `
     <div class="tab-bar" style="margin-bottom:8px">
-      <button class="tab-btn" id="debug-toggle" type="button">ð Debug log</button>
+      <button class="tab-btn" id="debug-toggle" type="button">🐛 Debug log</button>
     </div>
     <div class="card" id="debug-panel" style="display:none;max-height:200px;overflow-y:auto;font-family:monospace;font-size:11px;background:#0a0a0a;color:#6f6;margin-bottom:16px">
       <div id="debug-panel-body"></div>
@@ -393,8 +417,8 @@ function renderPublicHtml() {
         <p class="sub">Live standings</p>
       </header>
       <div class="tab-bar">
-        <button class="tab-btn ${state.publicTab === "leaderboard" ? "tab-btn-active" : ""}" data-public-tab="leaderboard">ð Leaderboard</button>
-        <button class="tab-btn ${state.publicTab === "checkin" ? "tab-btn-active" : ""}" data-public-tab="checkin">ð± Check-In</button>
+        <button class="tab-btn ${state.publicTab === "leaderboard" ? "tab-btn-active" : ""}" data-public-tab="leaderboard">🏆 Leaderboard</button>
+        <button class="tab-btn ${state.publicTab === "checkin" ? "tab-btn-active" : ""}" data-public-tab="checkin">📱 Check-In</button>
         <button class="srss-link" id="srss-login-btn">SRSS Login</button>
       </div>`;
 
@@ -463,10 +487,10 @@ function renderCheckInFormHtml() {
     return `
       <div class="form-shell">
         <div class="form-card">
-          <p class="result-icon">${result.status === "success" ? "â" : "â±"}</p>
+          <p class="result-icon">${result.status === "success" ? "✅" : "⏱"}</p>
           <h2 class="result-title">${result.status === "success" ? "You're checked in!" : "Checked in - no points"}</h2>
           <p class="result-message">${escapeHtml(result.message)}</p>
-          <p class="result-detail">${escapeHtml(checkinFormState.name)} Â· ${escapeHtml(checkinFormState.team)} Â· ${checkinFormState.window}</p>
+          <p class="result-detail">${escapeHtml(checkinFormState.name)} · ${escapeHtml(checkinFormState.team)} · ${checkinFormState.window}</p>
           <button class="submit-btn" id="checkin-reset" style="margin-top:16px">Log another check-in (demo)</button>
         </div>
       </div>`;
@@ -487,7 +511,7 @@ function renderCheckInFormHtml() {
         <input type="text" id="checkin-name" placeholder="e.g. Priya Sharma" value="${escapeHtml(checkinFormState.name)}" />
         <label class="field-label">Your team</label>
         <select id="checkin-team">
-          <option value="">â choose your team â</option>
+          <option value="">— choose your team —</option>
           ${TEAMS.map((t) => `<option value="${t}" ${checkinFormState.team === t ? "selected" : ""}>${t}</option>`).join("")}
         </select>
         <label class="field-label">Word shown on your group's display screen</label>
@@ -605,7 +629,7 @@ function renderDisplayScreenHtml(sessionWindow) {
       <p class="display-eyebrow">RSSTI - RESIDENCE TRAINING COMPETITION</p>
       <h1 class="display-title">${escapeHtml(config.sessionName || `${sessionWindow} Check-In`)}</h1>
       <div class="group-grid">${cardsHtml}</div>
-      <p class="footnote">Words refresh every ${WORD_REFRESH_SECONDS}s Â· QR codes refresh every ${QR_REFRESH_SECONDS / 60} min Â· each group's screen is independent</p>
+      <p class="footnote">Words refresh every ${WORD_REFRESH_SECONDS}s · QR codes refresh every ${QR_REFRESH_SECONDS / 60} min · each group's screen is independent</p>
     </div>`;
 }
 
@@ -617,28 +641,28 @@ function renderAdminHtml() {
   let html = `
     <div class="shell">
       ${debugBarHtml()}
-      <div class="lock-bar"><button class="lock-btn" id="lock-btn">ð Lock & Return to Public View</button></div>
+      <div class="lock-bar"><button class="lock-btn" id="lock-btn">🔒 Lock & Return to Public View</button></div>
       <header class="header">
-        <p class="eyebrow">SRSS ADMIN Â· RESIDENCE TRAINING COMPETITION</p>
+        <p class="eyebrow">SRSS ADMIN · RESIDENCE TRAINING COMPETITION</p>
         <h1 class="title">RTC Dashboard</h1>
         <p class="sub">Live data, saved to Firestore</p>
       </header>
       <div class="day-bar">
-        <span class="day-badge">ð Currently logging: ${escapeHtml(day.label)}</span>
+        <span class="day-badge">📅 Currently logging: ${escapeHtml(day.label)}</span>
         <button class="new-day-btn" id="new-day-btn">+ Start New Day</button>
         <span class="cutoff-hint">${state.days.length} day${state.days.length !== 1 ? "s" : ""} recorded</span>
       </div>
       <div class="tab-bar">
         ${["leaderboard", "session setup", "attendance records", "manual entry", "display"].map((tab) => `
           <button class="tab-btn ${state.adminTab === tab ? "tab-btn-active" : ""}" data-admin-tab="${tab}">
-            ${tab === "leaderboard" ? "ð Leaderboard" : tab === "session setup" ? "â° Session Setup" : tab === "attendance records" ? "ð Attendance Records" : tab === "manual entry" ? "âï¸ Manual Entry" : "ð¥ Display Screens"}
+            ${tab === "leaderboard" ? "🏆 Leaderboard" : tab === "session setup" ? "⏰ Session Setup" : tab === "attendance records" ? "📋 Attendance Records" : tab === "manual entry" ? "✏️ Manual Entry" : "🖥 Display Screens"}
           </button>`).join("")}
       </div>`;
 
   if (state.adminTab !== "display") {
     html += `
       <div class="export-row">
-        <button class="export-btn" id="export-btn">â¬ Export to Excel</button>
+        <button class="export-btn" id="export-btn">⬇ Export to Excel</button>
         <span class="export-hint">Exports cumulative totals across all ${state.days.length} day${state.days.length !== 1 ? "s" : ""}, plus a Rejected Check-Ins tab</span>
       </div>`;
   }
@@ -681,7 +705,7 @@ function renderAdminLeaderboardHtml(totals, day) {
       </table>
       <div style="margin-top:14px">
         ${["AM", "PM"].map((w) => `
-          <p class="card-note">${w} today: ${sessionIsLive(day.sessionConfig[w]) ? "live" : "not running (missing team times)"} Â· RTC points ${day.sessionConfig[w].rtcActive ? "ON" : "OFF"} this window</p>
+          <p class="card-note">${w} today: ${sessionIsLive(day.sessionConfig[w]) ? "live" : "not running (missing team times)"} · RTC points ${day.sessionConfig[w].rtcActive ? "ON" : "OFF"} this window</p>
         `).join("")}
       </div>
     </div>`;
@@ -696,7 +720,7 @@ function renderSessionSetupHtml(day) {
     html += `
       <div class="session-setup-block">
         <div class="header-row">
-          <p class="section-label">${sessionWindow} Window ${live ? '<span class="live-badge">â LIVE TODAY</span>' : '<span class="not-live-badge">Not running today</span>'}</p>
+          <p class="section-label">${sessionWindow} Window ${live ? '<span class="live-badge">● LIVE TODAY</span>' : '<span class="not-live-badge">Not running today</span>'}</p>
           <label class="toggle-label"><input type="checkbox" data-toggle-rtc="${sessionWindow}" ${config.rtcActive ? "checked" : ""}/> Counts toward RTC points today</label>
         </div>
         <div style="margin-bottom:12px">
@@ -774,8 +798,8 @@ function renderAttendanceRecordsHtml(day) {
               <td style="font-weight:700">${escapeHtml(rec.name)}</td>
               <td>${rec.tier}</td>
               <td>${new Date(rec.timestamp).toLocaleTimeString()}</td>
-              <td>${escapeHtml(rec.notes || "â")}</td>
-              <td><button class="adjust-btn" data-edit-record="${editKey}">â</button></td>
+              <td>${escapeHtml(rec.notes || "—")}</td>
+              <td><button class="adjust-btn" data-edit-record="${editKey}">✎</button></td>
             </tr>`;
         }
       });
@@ -815,7 +839,7 @@ function renderManualEntryHtml(day) {
           <div class="team-grid">
             ${row.roster.map((person) => {
               const isOn = row.onTheme.some((e) => e.name === person);
-              return `<button class="team-toggle ${isOn ? "team-toggle-active" : ""}" data-theme-toggle="${row.team}|${person}"><span>${escapeHtml(person)}</span><span>${isOn ? "â On-theme" : "Not yet"}</span></button>`;
+              return `<button class="team-toggle ${isOn ? "team-toggle-active" : ""}" data-theme-toggle="${row.team}|${person}"><span>${escapeHtml(person)}</span><span>${isOn ? "✅ On-theme" : "Not yet"}</span></button>`;
             }).join("")}
           </div>
         </div>`;
@@ -831,7 +855,7 @@ function renderManualEntryHtml(day) {
           <div class="team-grid">
             ${row.roster.map((person) => {
               const isIn = row.attendees.some((e) => e.name === person);
-              return `<button class="team-toggle ${isIn ? "team-toggle-active" : ""}" data-social-toggle="${row.team}|${person}"><span>${escapeHtml(person)}</span><span>${isIn ? "â Attended" : "Not yet"}</span></button>`;
+              return `<button class="team-toggle ${isIn ? "team-toggle-active" : ""}" data-social-toggle="${row.team}|${person}"><span>${escapeHtml(person)}</span><span>${isIn ? "✅ Attended" : "Not yet"}</span></button>`;
             }).join("")}
           </div>
         </div>`;
@@ -855,7 +879,7 @@ function renderManualEntryHtml(day) {
                 <div class="rank-picker">
                   <label class="rank-label">${["1st", "2nd", "3rd"][pi]}</label>
                   <select data-rank="${sessionKey}|${place}">
-                    <option value="">â</option>
+                    <option value="">—</option>
                     ${TEAMS.map((t) => `<option value="${t}" ${session[place] === t ? "selected" : ""}>${t}</option>`).join("")}
                   </select>
                 </div>`).join("")}
@@ -893,9 +917,9 @@ function renderManualEntryHtml(day) {
         ${TEAMS.map((team) => `
           <tr>
             <td style="font-weight:700">${team}</td>
-            <td><button class="adjust-btn" data-roster="${team}|-1">â</button><span class="adjust-value">${day.rosterSizes[team]}</span><button class="adjust-btn" data-roster="${team}|1">+</button></td>
-            <td><button class="adjust-btn" data-excused="AM|${team}|-1">â</button><span class="adjust-value">${day.excused.AM[team]}</span><button class="adjust-btn" data-excused="AM|${team}|1">+</button></td>
-            <td><button class="adjust-btn" data-excused="PM|${team}|-1">â</button><span class="adjust-value">${day.excused.PM[team]}</span><button class="adjust-btn" data-excused="PM|${team}|1">+</button></td>
+            <td><button class="adjust-btn" data-roster="${team}|-1">−</button><span class="adjust-value">${day.rosterSizes[team]}</span><button class="adjust-btn" data-roster="${team}|1">+</button></td>
+            <td><button class="adjust-btn" data-excused="AM|${team}|-1">−</button><span class="adjust-value">${day.excused.AM[team]}</span><button class="adjust-btn" data-excused="AM|${team}|1">+</button></td>
+            <td><button class="adjust-btn" data-excused="PM|${team}|-1">−</button><span class="adjust-value">${day.excused.PM[team]}</span><button class="adjust-btn" data-excused="PM|${team}|1">+</button></td>
           </tr>`).join("")}
       </tbody></table>`;
   }
