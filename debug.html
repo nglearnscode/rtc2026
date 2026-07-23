@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head><title>Firebase Debug</title></head>
+<body style="font-family:monospace;padding:20px;background:#111;color:#0f0">
+<h2 style="color:#fff">Firebase Load Test</h2>
+<div id="log">Starting...</div>
+
+<script type="module">
+const logEl = document.getElementById("log");
+function log(msg) {
+  logEl.innerHTML += "<br/>" + msg;
+  console.log(msg);
+}
+
+try {
+  log("Step 1: importing firebase-app.js...");
+  const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js");
+  log("✅ Step 1 done — initializeApp: " + typeof initializeApp);
+
+  log("Step 2: importing firebase-firestore.js...");
+  const { getFirestore, doc, getDoc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+  log("✅ Step 2 done — getFirestore: " + typeof getFirestore + ", doc: " + typeof doc + ", getDoc: " + typeof getDoc + ", setDoc: " + typeof setDoc);
+
+  log("Step 3: initializing app...");
+  const firebaseConfig = {
+    apiKey: "AIzaSyCOHe7_Z_-JPqH6Y4djsV2Jf06WsyO4Nlk",
+    authDomain: "residence-training-competition.firebaseapp.com",
+    projectId: "residence-training-competition",
+    storageBucket: "residence-training-competition.firebasestorage.app",
+    messagingSenderId: "984744781090",
+    appId: "1:984744781090:web:274d80bd8a8e321020b17b",
+  };
+  const fbApp = initializeApp(firebaseConfig);
+  log("✅ Step 3 done — fbApp: " + typeof fbApp);
+
+  log("Step 4: getting Firestore instance...");
+  const db = getFirestore(fbApp);
+  log("✅ Step 4 done — db: " + typeof db);
+
+  log("Step 5: setting window.__firebase...");
+  window.__firebase = { db, doc, getDoc, setDoc };
+  log("✅ Step 5 done — window.__firebase: " + JSON.stringify(Object.keys(window.__firebase)));
+
+  log("Step 6: attempting a real write...");
+  const testDoc = doc(db, "rtcDays", "debug-test");
+  await setDoc(testDoc, { testValue: Date.now(), from: "debug page" });
+  log("✅ Step 6 done — write succeeded!");
+
+  log("Step 7: attempting a real read...");
+  const snap = await getDoc(testDoc);
+  log("✅ Step 7 done — read succeeded, exists: " + snap.exists() + ", data: " + JSON.stringify(snap.data()));
+
+  log("<br/><b style='color:yellow'>ALL STEPS PASSED</b>");
+} catch (e) {
+  log("<br/>❌ FAILED: " + e.name + ": " + e.message);
+  log("Stack: " + (e.stack || "no stack available"));
+}
+</script>
+</body>
+</html>
