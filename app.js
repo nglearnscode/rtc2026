@@ -1239,7 +1239,7 @@ function exportToExcel() {
           : rec.tier === "on-time" ? POINT_VALUES.attendanceBase * POINT_VALUES.attendanceOnTime : 0;
         logRows.push({
           Day: day.label, Team: rec.team, Category: sessionLabel, Points: pts,
-          Note: `${rec.name} - ${rec.tier}${active ? "" : " (RTC off this window)"}${rec.notes ? " - " + rec.notes : ""} - logged ${new Date(rec.timestamp).toLocaleTimeString()}`,
+          Note: `${rec.name} - ${rec.tier}${typeof rec.minutesEarly === "number" && rec.minutesEarly >= SUSPICIOUS_EARLY_MINUTES ? ` (⚠ ${Math.round(rec.minutesEarly)} min ahead of schedule)` : ""}${active ? "" : " (RTC off this window)"}${rec.notes ? " - " + rec.notes : ""} - logged ${new Date(rec.timestamp).toLocaleTimeString()}`,
           "Entered By": "System",
         });
       });
