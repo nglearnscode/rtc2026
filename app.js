@@ -53,14 +53,14 @@ const SRSS_PASSCODE = "FISST2026"; // shared passcode — change before real rol
 // as SRSS clicks "Start New Day," so dates and theme names don't need to be
 // typed in manually each morning.
 const RSSTI_SCHEDULE = [
-  { date: "2026-08-20", theme: "Beach Day" },
+  { date: "2026-08-20", theme: "Skelly Day" },
   { date: "2026-08-21", theme: "Sparky Day" },
   { date: "2026-08-24", theme: "Pekka Day" },
   { date: "2026-08-25", theme: "Royals Day" },
   { date: "2026-08-26", theme: "Knight Day" },
   { date: "2026-08-27", theme: "Baby Dragon Day" },
   { date: "2026-08-28", theme: "Archer Day" },
-  { date: "2026-08-31", theme: "Skelly Day" },
+  { date: "2026-08-31", theme: "Beach Day" },
   { date: "2026-09-01", theme: "Sport Team Day" },
   { date: "2026-09-02", theme: "Wild West Day" },
   { date: "2026-09-03", theme: "SHRL Spirit Day" },
