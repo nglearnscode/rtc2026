@@ -92,7 +92,7 @@ const ROSTER_EMAILS = {
     "Vera Allue": "REPLACE_WITH_EMAIL", "Amina Djibrine Sy": "REPLACE_WITH_EMAIL", "Elif Ekizoglu": "REPLACE_WITH_EMAIL", "Josie Fratarcangeli": "REPLACE_WITH_EMAIL", "Ana Giceva": "REPLACE_WITH_EMAIL", "Saba Halabisaz": "REPLACE_WITH_EMAIL", "Winston Han": "REPLACE_WITH_EMAIL", "Adriana Izilein": "REPLACE_WITH_EMAIL", "Aashritha Kadiri": "REPLACE_WITH_EMAIL", "Harshita Kakkar": "REPLACE_WITH_EMAIL", "Saurabh Nair": "REPLACE_WITH_EMAIL", "Demi Ogundele": "REPLACE_WITH_EMAIL", "WEEDAD Okpala": "REPLACE_WITH_EMAIL", "Olamide Olajide": "REPLACE_WITH_EMAIL", "Gabrielle Omoyinbo": "REPLACE_WITH_EMAIL", "Surya Pusapati": "REPLACE_WITH_EMAIL", "Emily Savoie": "REPLACE_WITH_EMAIL", "Nola Ryissa Scott": "REPLACE_WITH_EMAIL", "Xin Wren Shan": "REPLACE_WITH_EMAIL", "Muhammad Umar": "REPLACE_WITH_EMAIL", "Rohan Verma": "REPLACE_WITH_EMAIL",
   },
   PF: {
-    "Demi Akinleye-Abraham": "REPLACE_WITH_EMAIL", "Marcus Anastacio": "REPLACE_WITH_EMAIL", "Lucy Chen Chen": "REPLACE_WITH_EMAIL", "Iris Cioban": "REPLACE_WITH_EMAIL", "Elias Perianza Robles": "REPLACE_WITH_EMAIL", "Aizhanym Shaikhiyeva": "REPLACE_WITH_EMAIL", "Zahra Simpson-Stairs": "REPLACE_WITH_EMAIL", "Samantha Venegas Guillen": "REPLACE_WITH_EMAIL",
+    "Demi Akinleye-Abraham": "nganga.gitau@mail.utoronto.ca", "Marcus Anastacio": "REPLACE_WITH_EMAIL", "Lucy Chen Chen": "REPLACE_WITH_EMAIL", "Iris Cioban": "REPLACE_WITH_EMAIL", "Elias Perianza Robles": "REPLACE_WITH_EMAIL", "Aizhanym Shaikhiyeva": "REPLACE_WITH_EMAIL", "Zahra Simpson-Stairs": "REPLACE_WITH_EMAIL", "Samantha Venegas Guillen": "REPLACE_WITH_EMAIL",
   },
 };
 function getRosterEmail(team, name) {
@@ -106,8 +106,8 @@ function getRosterEmail(team, name) {
 // silently no-ops if it's still present, so it's safe to deploy before
 // these are ready.
 const TEAMS_WEBHOOKS = {
-  checkinConfirmationUrl: "PASTE_CHECKIN_CONFIRMATION_WEBHOOK_URL_HERE", // Option B — DM to the RSS member who just checked in
-  exceptionAlertUrl: "PASTE_EXCEPTION_ALERT_WEBHOOK_URL_HERE", // SRSS-facing — only fires for duplicates, excused conflicts, suspicious-early
+  checkinConfirmationUrl: "https://7229a2222414e52cbedad57e5d2124.f6.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/26/workflows/adfc620c95a74e2fba66c3032dd744b5/triggers/manual/paths/invoke?api-version=1", // Option B — DM to the RSS member who just checked in
+  exceptionAlertUrl: "https://7229a2222414e52cbedad57e5d2124.f6.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/14/workflows/2e9d25182254472abc3bcf159b704388/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=AOfAw4NzTKYBx3d7dKVynUJjtOIUUK2iKK8lMW_hR9A", // SRSS-facing — only fires for duplicates, excused conflicts, suspicious-early
 };
 
 async function postToTeamsWebhook(url, payload) {
