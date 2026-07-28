@@ -109,7 +109,7 @@ function getRosterEmail(team, name) {
 // you safely run through testing now that ROSTER_EMAILS has real people's
 // real addresses in it. Set back to "" (empty) only when genuinely ready to
 // go live for real — that one line is what turns real routing back on.
-const TESTING_OVERRIDE_EMAIL = ""; // e.g. "you@mail.utoronto.ca" while testing, "" to go live
+const TESTING_OVERRIDE_EMAIL = "nganga.gitau@mail.utoronto.ca"; // e.g. "you@mail.utoronto.ca" while testing, "" to go live
 
 const TEAMS_WEBHOOKS = {
   checkinConfirmationUrl: "PASTE_CHECKIN_CONFIRMATION_WEBHOOK_URL_HERE", // Option B — DM to the RSS member who just checked in
