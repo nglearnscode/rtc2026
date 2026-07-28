@@ -106,8 +106,8 @@ function getRosterEmail(team, name) {
 // silently no-ops if it's still present, so it's safe to deploy before
 // these are ready.
 const TEAMS_WEBHOOKS = {
-  checkinConfirmationUrl: "PASTE_CHECKIN_CONFIRMATION_WEBHOOK_URL_HERE", // Option B — DM to the RSS member who just checked in
-  exceptionAlertUrl: "PASTE_EXCEPTION_ALERT_WEBHOOK_URL_HERE", // SRSS-facing — only fires for duplicates, excused conflicts, suspicious-early
+  checkinConfirmationUrl: "https://7229a2222414e52cbedad57e5d2124.f6.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/26/workflows/adfc620c95a74e2fba66c3032dd744b5/triggers/manual/paths/invoke?api-version=1", // Option B — DM to the RSS member who just checked in
+  exceptionAlertUrl: "https://7229a2222414e52cbedad57e5d2124.f6.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/14/workflows/2e9d25182254472abc3bcf159b704388/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=AOfAw4NzTKYBx3d7dKVynUJjtOIUUK2iKK8lMW_hR9A", // SRSS-facing — only fires for duplicates, excused conflicts, suspicious-early
 };
 
 async function postToTeamsWebhook(url, payload) {
