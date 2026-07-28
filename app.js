@@ -107,7 +107,7 @@ function getRosterEmail(team, name) {
 // these are ready.
 const TEAMS_WEBHOOKS = {
   checkinConfirmationUrl: "https://7229a2222414e52cbedad57e5d2124.f6.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/26/workflows/adfc620c95a74e2fba66c3032dd744b5/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=itIzMGGAE_1nwM7bgu89RJap9RJ_85oi-GOyqEW1VdQ", // Option B — DM to the RSS member who just checked in
-  exceptionAlertUrl: "https://7229a2222414e52cbedad57e5d2124.f6.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/14/workflows/2e9d25182254472abc3bcf159b704388/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=AOfAw4NzTKYBx3d7dKVynUJjtOIUUK2iKK8lMW_hR9A", // SRSS-facing — only fires for duplicates, excused conflicts, suspicious-early
+  exceptionAlertUrl: "https://7229a2222414e52cbedad57e5d2124.f6.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/14/workflows/0b2ea36068d04e1791f7f1f16bb6f222/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=whoSAUf_gJTS-p69R36ndDdZghMq6yg-L51fL4ndeQw", // SRSS-facing — only fires for duplicates, excused conflicts, suspicious-early
 };
 
 async function postToTeamsWebhook(url, payload) {
