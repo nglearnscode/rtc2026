@@ -152,25 +152,13 @@ function sendCheckinConfirmation(name, team, sessionWindow, tier, message) {
 }
 
 function sendExceptionAlert(alertType, details) {
-  // Confirmed via the flow's trigger schema (code view): this template
-  // expects a full Teams message envelope wrapping an Adaptive Card, not a
-  // simple field — a bare {text: ...} payload was rejected with HTTP 400
-  // because it didn't match this shape at all.
   const text = `⚠ ${alertType} — ${details.name} (${details.team}, ${details.window}, ${details.day}). ${details.detail}`;
   postToTeamsWebhook(TEAMS_WEBHOOKS.exceptionAlertUrl, {
-    type: "message",
-    attachments: [
-      {
-        contentType: "application/vnd.microsoft.card.adaptive",
-        content: {
-          "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-          type: "AdaptiveCard",
-          version: "1.4",
-          body: [
-            { type: "TextBlock", text, wrap: true },
-          ],
-        },
-      },
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    type: "AdaptiveCard",
+    version: "1.4",
+    body: [
+      { type: "TextBlock", text, wrap: true },
     ],
   });
 }
