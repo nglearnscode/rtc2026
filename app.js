@@ -43,7 +43,7 @@ const EARLY_CUTOFF_MINUTES = 5;
 // still correctly computes as "early" (that's a legitimate category), but a
 // check-in this far ahead of schedule is worth a human glance, since it's
 // the kind of gap a forwarded word could exploit.
-const SUSPICIOUS_EARLY_MINUTES = 20;
+const SUSPICIOUS_EARLY_MINUTES = 15;
 const WORD_BANK = [
   "compass", "lantern", "harbor", "thicket", "meridian", "kestrel",
   "granite", "willow", "beacon", "tundra", "ember", "cascade",
@@ -112,8 +112,8 @@ function getRosterEmail(team, name) {
 const TESTING_OVERRIDE_EMAIL = "nganga.gitau@mail.utoronto.ca"; // e.g. "you@mail.utoronto.ca" while testing, "" to go live
 
 const TEAMS_WEBHOOKS = {
-  checkinConfirmationUrl: "PASTE_CHECKIN_CONFIRMATION_WEBHOOK_URL_HERE", // Option B — DM to the RSS member who just checked in
-  exceptionAlertUrl: "PASTE_EXCEPTION_ALERT_WEBHOOK_URL_HERE", // SRSS-facing — only fires for duplicates, excused conflicts, suspicious-early
+  checkinConfirmationUrl: "https://7229a2222414e52cbedad57e5d2124.f6.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/26/workflows/adfc620c95a74e2fba66c3032dd744b5/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=itIzMGGAE_1nwM7bgu89RJap9RJ_85oi-GOyqEW1VdQ", // Option B — DM to the RSS member who just checked in
+  exceptionAlertUrl: "https://7229a2222414e52cbedad57e5d2124.f6.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/14/workflows/0b2ea36068d04e1791f7f1f16bb6f222/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=whoSAUf_gJTS-p69R36ndDdZghMq6yg-L51fL4ndeQw", // SRSS-facing — only fires for duplicates, excused conflicts, suspicious-early
 };
 
 async function postToTeamsWebhook(url, payload) {
@@ -186,7 +186,7 @@ const SRSS_PASSCODE = "FISST2026"; // shared passcode — change before real rol
 const RSSTI_SCHEDULE = [
   { date: "2026-08-20", theme: "Beach Day" },
   { date: "2026-08-21", theme: "Sparky Day" },
-  { date: "2026-08-24", theme: "Pekka Day" },
+  { date: "2026-08-24", theme: "Phoenix Day" },
   { date: "2026-08-25", theme: "Royals Day" },
   { date: "2026-08-26", theme: "Knight Day" },
   { date: "2026-08-27", theme: "Baby Dragon Day" },
