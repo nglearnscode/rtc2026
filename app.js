@@ -8,7 +8,7 @@ const TEAMS = ["Northside", "Southside", "Central", "NRB", "RSA", "REF", "PF"];
 const TEAM_DISPLAY_NAMES = {
   Northside: "Northside Knights (NS-DON)",
   Southside: "Southside Skellies (SS-DON)",
-  Central: "Central Sparkies (CT-DON)",
+  Central: "Central Cparkies (CT-DON)",
   NRB: "New Residence Baby Dragons (NRB-DON)",
   RSA: "RSA Archers",
   REF: "REF Royals",
@@ -56,7 +56,7 @@ const WORD_BANK = [
 
 const SAMPLE_ROSTERS = {
   Northside: ["Juna Abutaha", "Suryansh Baichoo", "Cielo Barrera Amacifuen", "Xavier Blache", "Saif Cheema", "Rayanna Clarke", "Mackenzie Geith", "Javonte Hunter", "Eilin Kulinich", "Sonakshi Mitra", "Georgina Murray", "Adegheosa Omorogiuwa", "Shahzaib Sheikh", "Khue Tran"],
-  Southside: ["Amelia Alam", "Spencer Brodie", "Dilni Dissanayake", "Jenny Dong", "Irha Hassan", "Munkhzul Jargalsaikhan", "Tishma Joarder", "Farhada Khaled", "Mairin McConnell", "Helya Rassouli", "Karisa Sol-Edeigba", "Kels Themens", "Raisha Valezka", "Ji-in Yun", "Sofia Benard", "Aisling MacQuarrie", "Maria Paula Garzon"],
+  Southside: ["Amelia Alam", "Spencer Brodie", "Dilni Dissanayake", "Jenny Dong", "Irha Hassan", "Munkhzul Jargalsaikhan", "Tishma Joarder", "Farhada Khaled", "Mairin McConnell", "Mackenzie Johnson", "Karisa Sol-Edeigba", "Kels Themens", "Raisha Valezka", "Ji-in Yun", "Sofia Benard", "Aisling MacQuarrie", "Maria Paula Garzon"],
   Central: ["Pru Feeney", "Hoor Atique", "Ximena Castillo Ramirez", "Ava Jalali", "Julia Kary", "Oona Kauppinen", "Rachel Rui Liang", "Siddharth Naik", "Daphne Nguyen", "Mitaansh Niverthi", "Areesh Noman", "Senad Sadik", "Kaitlyn Stevens", "Jacelynn Su", "Krish Thakur"],
   NRB: ["Katia Al Shehadeh", "Riana Banks", "Ava Boston", "Aryan Garg", "Tia Girolametto", "Sabea Larson", "Sarah McGinn", "Presley McLeod", "Emma-Marie Meyer", "Giulia Nuvoloni", "Semilore Olafare", "Princess Olawale", "Sreyasi Rahman", "Aurora Thompson", "Gio Williams"],
   RSA: ["Divva Achpilya", "Reese Cameron", "MJ Comuzzi", "Olivia Dalla Zanna", "Avery Harvey", "Madeline Kelly", "Heeje Kim", "Karina Kosareva", "Kartika Kumala", "Hamad Malik", "Ghazlia Mehdi", "Lawrene Naval", "Michelle Omitayo", "Fehintoluwa Omotunde", "Princess Owusu Ansah", "Blake Pederson", "Matthew Pichocki", "Krisha Shah", "Darsh Singh", "Natran Tewoldemedhin", "Kayla Viveiros", "Akaila Wright"],
