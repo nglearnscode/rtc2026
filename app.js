@@ -109,7 +109,7 @@ function getRosterEmail(team, name) {
 // you safely run through testing now that ROSTER_EMAILS has real people's
 // real addresses in it. Set back to "" (empty) only when genuinely ready to
 // go live for real — that one line is what turns real routing back on.
-const TESTING_OVERRIDE_EMAIL = "nganga.gitau@mail.utoronto.ca"; // e.g. "you@mail.utoronto.ca" while testing, "" to go live
+const TESTING_OVERRIDE_EMAIL = ""; // e.g. "you@mail.utoronto.ca" while testing, "" to go live
 
 const TEAMS_WEBHOOKS = {
   checkinConfirmationUrl: "https://7229a2222414e52cbedad57e5d2124.f6.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/26/workflows/adfc620c95a74e2fba66c3032dd744b5/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=itIzMGGAE_1nwM7bgu89RJap9RJ_85oi-GOyqEW1VdQ", // Option B — DM to the RSS member who just checked in
