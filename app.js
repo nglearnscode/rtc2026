@@ -8,7 +8,7 @@ const TEAMS = ["Northside", "Southside", "Central", "NRB", "RSA", "REF", "PF"];
 const TEAM_DISPLAY_NAMES = {
   Northside: "Northside Knights (NS-DON)",
   Southside: "Southside Skellies (SS-DON)",
-  Central: "Central Sparkies (CT-DON)",
+  Central: "Central Cparkies (CT-DON)",
   NRB: "New Residence Baby Dragons (NRB-DON)",
   RSA: "RSA Archers",
   REF: "REF Royals",
